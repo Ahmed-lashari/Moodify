@@ -1,0 +1,17 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# Virtual environment
+venv/
+
+# Django database and secrets
+db.sqlite3
+*.log
+.env
+
+# System files
+.DS_Store
+

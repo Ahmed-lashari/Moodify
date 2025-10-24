@@ -1,0 +1,26 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Moodify | Result Dashboard</title>
+    <link rel="stylesheet" href="{% static 'predictor/css/style.css' %}" />
+  </head>
+  <body>
+    <section class="result-container">
+      <h2>Analyzing your song...</h2>
+      <div id="progress-bar"></div>
+
+      <div id="dashboard" style="display: none">
+        <h1>Prediction Dashboard</h1>
+        <p><strong>Lyrics Submitted:</strong></p>
+        <blockquote>{{ lyrics }}</blockquote>
+
+        <p><strong>Predicted Mood:</strong> (coming soon...)</p>
+        <a href="{% url 'home' %}" class="btn">Try Another</a>
+      </div>
+    </section>
+
+    <script src="{% static 'predictor/js/script.js' %}"></script>
+  </body>
+</html>
