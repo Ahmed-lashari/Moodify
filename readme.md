@@ -1,6 +1,6 @@
 # Moodify - Predict Song Mood from Lyrics
 
-**Moodify** is a web-based application built using Django that predicts the mood of a song based on its lyrics.  
+**Moodify** is a web-based application built using Django/React that predicts the mood of a song based on its lyrics.  
 It applies text processing and machine learning techniques to classify songs into categories such as *Happy*, *Sad*, *Energetic*, or *Chill*.  
 The project demonstrates end-to-end text preprocessing, supervised learning, and dimensionality reduction using PCA.
 
@@ -19,7 +19,7 @@ The project demonstrates end-to-end text preprocessing, supervised learning, and
 | Component | Technology |
 |------------|-------------|
 | Framework | Django (Python 3.10+) |
-| Frontend | HTML, CSS, JavaScript |
+| Frontend | HTML, CSS, JavaScript , React |
 | Machine Learning | Scikit-learn, NLTK, NumPy, Pandas |
 | Model | Logistic Regression / Naive Bayes / SVM |
 | Dimensionality Reduction | PCA |
