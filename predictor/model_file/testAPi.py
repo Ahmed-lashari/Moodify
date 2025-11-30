@@ -1,0 +1,3 @@
+import requests
+r = requests.post("http://127.0.0.1:8000/api/predict/", json={"lyrics":"I feel great"})
+print(r.status_code, r.json())

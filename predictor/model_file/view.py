@@ -1,7 +1,5 @@
-﻿import os
-import json
-import joblib
-
+# predictor/views.py
+import os, json, joblib
 from django.shortcuts import render
 from django.http import JsonResponse, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
