@@ -1,70 +1,293 @@
-# Getting Started with Create React App
+# Moodify Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based web application that analyzes song lyrics and visualizes their emotional mood with interactive charts.
 
-## Available Scripts
+## 📁 Project Structure
 
-In the project directory, you can run:
+```
+frontend/
+├── public/
+├── src/
+│   ├── apis/
+│   │   ├── get.js           # GET request to backend
+│   │   └── post.js          # POST request for predictions
+│   ├── pages/
+│   │   ├── LandingPage.jsx  # Hero/welcome page
+│   │   ├── InputPage.jsx    # Lyrics input form
+│   │   ├── LoadingPage.jsx  # Loading animation
+│   │   └── ResultPage.jsx   # Results with charts
+│   ├── utils/
+│   │   ├── moodConfig.js         # Mood colors & emojis
+│   │   └── mockDataGenerator.js  # Mock data for testing
+│   ├── App.jsx              # Main component & routing
+│   ├── index.css            # Tailwind CSS imports
+│   └── index.jsx            # React entry point
+├── package.json
+├── tailwind.config.js
+└── README.md
+```
 
-### `npm start`
+## 🚀 Quick Start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 1. Install Dependencies
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+cd frontend
+npm install
+```
 
-### `npm test`
+### 2. Configure Backend URL
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The app expects the backend at `http://localhost:8000`. If your backend runs on a different port, update the URLs in:
+- `src/apis/get.js`
+- `src/apis/post.js`
 
-### `npm run build`
+### 3. Start Development Server
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Frontend will be available at: **http://localhost:3000**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🎨 Pages & Flow
 
-### `npm run eject`
+### 1. **Landing Page** (`LandingPage.jsx`)
+- Hero section with animated background
+- Feature cards showcasing app capabilities
+- "Start Analyzing" CTA button
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 2. **Input Page** (`InputPage.jsx`)
+- Textarea for lyrics input
+- Real-time word count validation (minimum 5 words)
+- Submit button to trigger analysis
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 3. **Loading Page** (`LoadingPage.jsx`)
+- Animated loading screen
+- Progress steps visualization
+- Displays while backend processes lyrics
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 4. **Result Page** (`ResultPage.jsx`)
+- Main mood prediction with emoji and confidence
+- **Pie Chart**: Mood distribution across emotions
+- **Line Chart**: Sentiment flow throughout lyrics
+- **Bar Chart**: Top keywords frequency
+- Statistics cards (word count, unique words, avg length)
+- Original lyrics display
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 📊 Features
 
-## Learn More
+### Interactive Charts
+Built with **Recharts** library:
+- 📈 **Line Chart** - Sentiment timeline
+- 🥧 **Pie Chart** - Mood distribution
+- 📊 **Bar Chart** - Word frequency
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Mood Types
+The app recognizes these moods:
+- 😊 **Happy** - Yellow/Orange gradient
+- 😢 **Sad** - Gray gradient
+- 😠 **Angry** - Red gradient
+- 😌 **Calm** - Cyan/Blue gradient
+- ⚡ **Energetic** - Orange/Pink gradient
+- 💕 **Romantic** - Pink/Rose gradient
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Responsive Design
+- Mobile-friendly layout
+- Tailwind CSS styling
+- Smooth animations and transitions
 
-### Code Splitting
+## 🔧 Key Files Explained
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+| File | Purpose |
+|------|---------|
+| `App.jsx` | Main component managing page state and navigation |
+| `apis/post.js` | Sends lyrics to backend for prediction |
+| `apis/get.js` | Health check endpoint for backend |
+| `moodConfig.js` | Mood definitions (colors, emojis, gradients) |
+| `mockDataGenerator.js` | Generates fake data for UI testing |
 
-### Analyzing the Bundle Size
+## 🧪 Testing Mode
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The app includes a **Mock Data Toggle** (top-right corner) for development:
 
-### Making a Progressive Web App
+```javascript
+// Enable in App.jsx
+const [useMockData, setUseMockData] = useState(false);
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+**When enabled:**
+- ✅ No backend required
+- ✅ Instant results
+- ✅ Test all UI components
+- ✅ Perfect for frontend development
 
-### Advanced Configuration
+**When disabled:**
+- ✅ Real API calls to backend
+- ✅ Actual ML predictions
+- ✅ Production-ready flow
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 📡 API Integration
 
-### Deployment
+### Backend Expected Response
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```json
+{
+  "mood": "happy",
+  "lyrics": "Your lyrics here...",
+  "success": true
+}
+```
 
-### `npm run build` fails to minify
+### Frontend Transformation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The app enhances backend response with:
+- Confidence score
+- Chart data (mood distribution, sentiment timeline)
+- Word frequency analysis
+- Text statistics
+
+This is handled in `App.jsx` → `transformBackendResponse()`
+
+## 🛠️ Dependencies
+
+```json
+{
+  "react": "^18.x",
+  "recharts": "^2.x",
+  "tailwindcss": "^3.x"
+}
+```
+
+### Key Libraries:
+- **React** - UI framework
+- **Recharts** - Chart visualizations
+- **Tailwind CSS** - Utility-first styling
+
+## 🎯 Usage Flow
+
+1. **User lands on homepage** → Clicks "Start Analyzing"
+2. **User enters lyrics** → Minimum 5 words required
+3. **Click "Analyze Mood"** → POST request to backend
+4. **Loading screen** → Shows processing steps
+5. **Results displayed** → Charts, stats, and mood prediction
+
+## 🔗 Connecting to Backend
+
+### Before Starting Frontend:
+
+```bash
+# Terminal 1 - Start Backend
+cd backend
+uvicorn app.main:app --reload
+```
+
+```bash
+# Terminal 2 - Start Frontend
+cd frontend
+npm start
+```
+
+### CORS Configuration
+
+Backend must allow frontend origin. Check `backend/app/main.py`:
+
+```python
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+## 🐛 Troubleshooting
+
+### Backend connection fails?
+- Ensure backend is running on `http://localhost:8000`
+- Check browser console for CORS errors
+- Verify backend `/health` endpoint is accessible
+
+### Charts not showing?
+- Check if `recharts` is installed: `npm install recharts`
+- Verify data structure matches chart requirements
+- Use mock data toggle to test with sample data
+
+### Styling issues?
+- Run: `npm run build` to rebuild Tailwind
+- Check `tailwind.config.js` for proper paths
+- Verify `index.css` imports Tailwind directives
+
+### Build errors?
+```bash
+# Clear cache and reinstall
+rm -rf node_modules package-lock.json
+npm install
+```
+
+## 📦 Production Build
+
+```bash
+npm run build
+```
+
+Creates optimized production build in `build/` folder.
+
+### Deploy
+```bash
+# Serve production build
+npx serve -s build
+```
+
+## 🎨 Customization
+
+### Add New Moods
+
+Edit `utils/moodConfig.js`:
+
+```javascript
+export const MOODS = {
+  excited: {
+    emoji: "🤩",
+    color: "#FFA500",
+    gradient: "from-yellow-500 to-orange-600",
+  },
+  // ... other moods
+};
+```
+
+### Change Color Scheme
+
+Update Tailwind config in `tailwind.config.js` or use inline classes in components.
+
+### Modify Animations
+
+Edit animation classes in component JSX or add custom animations in `index.css`.
+
+## 📱 Mobile Responsiveness
+
+All pages are responsive:
+- ✅ Mobile (320px+)
+- ✅ Tablet (768px+)
+- ✅ Desktop (1024px+)
+
+Breakpoints managed by Tailwind CSS `sm:`, `md:`, `lg:` classes.
+
+## 🚀 Next Steps
+
+1. ✅ Test with mock data enabled
+2. ✅ Connect to backend and test real predictions
+3. 🔄 Enhance backend to provide chart data
+4. 🔄 Add user authentication (optional)
+5. 🔄 Deploy to production
+
+## 💡 Tips
+
+- Use **mock data toggle** during frontend development
+- Check browser **console** for API errors
+- Test with various lyrics lengths (short, medium, long)
+- Verify backend is running before disabling mock mode
+
+---
+
+**Made with ❤️ for visualizing music emotions**
