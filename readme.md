@@ -1,8 +1,8 @@
-# 🎵 Moodify
+# 🎵 [Moodify](https://moodify-lyrics.vercel.app/)
 
 **AI-Powered Lyrics Mood Analyzer**
 
-Moodify uses machine learning and natural language processing to analyze song lyrics and predict their emotional mood. Built with FastAPI (backend) and React (frontend), it provides real-time mood predictions with beautiful visualizations.
+[Moodify](https://moodify-lyrics.vercel.app/) uses machine learning and natural language processing to analyze song lyrics and predict their emotional mood. Built with FastAPI (backend) and React (frontend), it provides real-time mood predictions with beautiful visualizations.
 
 ---
 
