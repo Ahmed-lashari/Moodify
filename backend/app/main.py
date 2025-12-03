@@ -11,9 +11,9 @@ app = FastAPI(title="Moodify API", version="1.0.0")
 # CORS Middleware for React frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # React default port
+    allow_origins=["http://localhost:3000", "https://moodify-lyrics.vercel.app/"],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
