@@ -121,12 +121,12 @@ Simple endpoint to verify backend is running.
 
 ## 🔗 Connecting to React Frontend
 
-The backend is configured with CORS to allow requests from:
-- `http://localhost:3000` (React default port)
+<!-- The backend is configured with CORS to allow requests from:
+- `http://localhost:3000` (React default port) -->
 
-Update `app/main.py` if your React app runs on a different port:
+<!-- Update `app/main.py` if your React app runs on a different port: -->
 
-```python
+<!-- ```python
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],  # Change if needed
@@ -134,7 +134,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-```
+``` -->
 
 ## 🐛 Troubleshooting
 
@@ -150,7 +150,7 @@ app.add_middleware(
 - Make sure all dependencies are installed: `pip install -r requirements.txt`
 - Verify Python version: `python --version` (should be 3.11+)
 
-## 📝 Example Usage with React
+<!-- ## 📝 Example Usage with React
 
 ```javascript
 // React component making a prediction request
@@ -164,14 +164,14 @@ const predictMood = async (lyrics) => {
   const data = await response.json();
   console.log(data.mood); // "happy", "sad", etc.
 };
-```
+``` -->
 
-## 🎯 Next Steps
+<!-- ## 🎯 Next Steps
 
 1. Run the backend: `uvicorn app.main:app --reload`
 2. Test endpoints at: `http://localhost:8000/docs`
 3. Connect your React frontend
-4. Start predicting moods! 🎵
+4. Start predicting moods! 🎵 -->
 
 ---
 

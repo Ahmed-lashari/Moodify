@@ -56,7 +56,7 @@ function LandingPage({ onStart }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
             {[
               { icon: '🧠', title: 'AI-Powered', desc: 'Advanced ML algorithms' },
-              { icon: '📈', title: 'Accurate', desc: '95% prediction accuracy' },
+              { icon: '📈', title: 'Accurate', desc: '60% prediction accuracy' },
               { icon: '⚡', title: 'Instant', desc: 'Results in seconds' }
             ].map((feature, i) => (
               <div
