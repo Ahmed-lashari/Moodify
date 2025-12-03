@@ -3,9 +3,12 @@
  * @param {string} lyrics - The song lyrics to analyze
  * @returns {Promise<object>} Prediction result
  */
+
+const API_BASE = process.env.REACT_APP_API_URL;
+
 const sendLyrics = async (lyrics) => {
   try {
-    const res = await fetch("http://localhost:8000/predict", {
+    const res = await fetch(`${API_BASE}/predict`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ lyrics: lyrics }),

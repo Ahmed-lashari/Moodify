@@ -1,9 +1,12 @@
 /**
  * GET request to check backend status
  */
+
+const API_BASE = process.env.REACT_APP_API_URL;
+
 const getMessage = async () => {
   try {
-    const res = await fetch("http://localhost:8000/message");
+    const res = await fetch(`${API_BASE}/message`);
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
