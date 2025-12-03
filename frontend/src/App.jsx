@@ -4,25 +4,32 @@
  */
 
 import { useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+
 import LandingPage from './pages/landingPage';
 import InputPage from './pages/inputPage';
 import LoadingPage from './pages/loadingPage';
 import ResultPage from './pages/resultPage';
+import TeamCredits from './components/contributions';
 import sendLyrics from './apis/post';
 import { generateMockPrediction } from './utils/mockDataGenerator';
 
 
+
 function App() {
-  const [page, setPage] = useState('landing'); // 'landing', 'input', 'loading', 'result'
+  // const [page, setPage] = useState('landing'); // 'landing', 'input', 'loading', 'result'
   const [prediction, setPrediction] = useState(null);
   const [useMockData, setUseMockData] = useState(false); // Toggle for testing
 
+  const navigate = useNavigate();
+
   const handleStart = () => {
-    setPage('input');
+    navigate('/lyrics');
   };
 
   const handleAnalyze = async (lyrics) => {
-    setPage('loading');
+    navigate('/loading');
+
 
     try {
       if (useMockData) {
@@ -30,7 +37,8 @@ function App() {
         setTimeout(() => {
           const mockResult = generateMockPrediction(lyrics);
           setPrediction(mockResult);
-          setPage('result');
+          navigate('/charts');
+
         }, 2000);
       } else {
         // Real API call
@@ -39,20 +47,22 @@ function App() {
         // Transform backend response to match frontend expectations
         const transformedResult = transformBackendResponse(result, lyrics);
         setPrediction(transformedResult);
-        setPage('result');
+        navigate('/charts');
+
       }
     } catch (error) {
       alert('Failed to analyze lyrics. Please try again.');
-      setPage('input');
+      navigate('/lyrics');
+
     }
   };
 
   const handleBack = () => {
-    if (page === 'result') {
-      setPage('input');
-    } else {
-      setPage('landing');
-    }
+    navigate('/lyrics');
+  };
+
+  const handleBackToHome = () => {
+    navigate('/');
     setPrediction(null);
   };
 
@@ -76,6 +86,9 @@ function App() {
 
   return (
     <div className="App">
+      {/* Team Credits Button - Visible on ALL pages */}
+      <TeamCredits />
+
       {/* Dev toggle - Remove in production */}
       <div className="fixed top-4 right-4 z-50">
         <label className="bg-white px-4 py-2 rounded-lg shadow-lg text-sm">
@@ -89,10 +102,13 @@ function App() {
         </label>
       </div>
 
-      {page === 'landing' && <LandingPage onStart={handleStart} />}
-      {page === 'input' && <InputPage onAnalyze={handleAnalyze} onBack={handleBack} />}
-      {page === 'loading' && <LoadingPage />}
-      {page === 'result' && <ResultPage prediction={prediction} onBack={handleBack} />}
+      {/* Routes */}
+      <Routes>
+        <Route path="/" element={<LandingPage onStart={handleStart} />} />
+        <Route path="/lyrics" element={<InputPage onAnalyze={handleAnalyze} onBack={handleBackToHome} />} />
+        <Route path="/loading" element={<LoadingPage />} />
+        <Route path="/charts" element={<ResultPage prediction={prediction} onBack={handleBack} />} />
+      </Routes>
     </div>
   );
 }
