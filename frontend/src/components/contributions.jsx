@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 function TeamCredits() {
   const [isOpen, setIsOpen] = useState(false);
+  const [emailPopup, setEmailPopup] = useState({ isOpen: false, email: '' });
   const navigate = useNavigate();
 
   const handleOpenModal = () => {
@@ -15,12 +16,30 @@ function TeamCredits() {
     navigate(-1);
   };
 
+  const handleEmailClick = (e, email) => {
+    e.preventDefault();
+    setEmailPopup({ isOpen: true, email });
+  };
+
+  const handleCloseEmailPopup = () => {
+    setEmailPopup({ isOpen: false, email: '' });
+  };
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(emailPopup.email);
+  };
+
+  const handleSendEmail = () => {
+    window.location.href = `mailto:${emailPopup.email}`;
+  };
+
   const teamMembers = [
     {
       avatar: "👨‍💻",
       name: "Muhammad Ahmed Lashari",
       role: "Lead Development (Frontend + Backend)",
       github: "https://github.com/Ahmed-lashari",
+      email: "ahmedlashari.official@gmail.com",
       linkedin: "https://www.linkedin.com/in/muhammad-ahmed-lashari-826761289/",
       color: "from-purple-500 to-indigo-600",
       contributions: [
@@ -47,8 +66,9 @@ function TeamCredits() {
     {
       avatar: "🧠",
       name: "Ismail Momand",
-      role: "Lead ML Development",
+      role: "Lead ML Engineering",
       github: "https://github.com/1smai1",
+      email: "idkmaybeismail@gmail.com",
       linkedin: "https://www.linkedin.com/in/ismail-khan-mohmand/",
       color: "from-blue-500 to-cyan-600",
       contributions: [
@@ -75,6 +95,7 @@ function TeamCredits() {
       name: "Abbas Yusafzai",
       role: "ML Research & Backend Contributor",
       github: "https://github.com/MAbbas1227",
+      email: "muhammad1227abbas@gmail.com",
       linkedin: "https://www.linkedin.com/in/muhammad-abbas-4448a5299/",
       color: "from-green-500 to-emerald-600",
       contributions: [
@@ -156,6 +177,15 @@ function TeamCredits() {
                       
                       {/* Social Links */}
                       <div className="flex gap-3">
+                        <button
+                          onClick={(e) => handleEmailClick(e, member.email)}
+                          className="group/link flex items-center gap-2 px-4 py-2 bg-gray-900 hover:bg-gray-800 text-white rounded-full text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                        >
+                          <svg className="w-5 h-5 group-hover/link:rotate-12 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                          </svg>
+                          <span>Email</span>
+                        </button>
                         <a
                           href={member.github}
                           target="_blank"
@@ -236,6 +266,56 @@ function TeamCredits() {
                   Built with ❤️ using React, FastAPI, and Machine Learning
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Email Popup */}
+      {emailPopup.isOpen && (
+        <div 
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-md animate-fadeIn" 
+          onClick={handleCloseEmailPopup}
+        >
+          <div 
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 animate-slideUp" 
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-2xl font-bold text-gray-800">Contact via Email</h3>
+              <button 
+                onClick={handleCloseEmailPopup}
+                className="text-gray-400 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+              <p className="text-sm text-gray-600 mb-2">Email Address:</p>
+              <p className="text-lg font-semibold text-gray-800 break-all">{emailPopup.email}</p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={handleSendEmail}
+                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                Send Email
+              </button>
+              
+              <button
+                onClick={handleCopyEmail}
+                className="w-full bg-gray-900 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                Copy Email Address
+              </button>
             </div>
           </div>
         </div>
