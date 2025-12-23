@@ -1,5 +1,12 @@
 from pydantic import BaseModel, Field
 
+MOODS = {
+    "happy": {"color": "#FFD700"},
+    "sad": {"color": "#1E90FF"},
+    "angry": {"color": "#FF4500"},
+}
+
+
 # -------------------------
 # Request Models
 # -------------------------
@@ -31,3 +38,4 @@ class HealthResponse(BaseModel):
 class MessageResponse(BaseModel):
     message: str
     description: str
+    
