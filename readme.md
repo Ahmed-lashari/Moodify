@@ -20,7 +20,7 @@ The project demonstrates end-to-end text preprocessing, supervised learning, and
 |------------|-------------|
 | Framework | Django (Python 3.10+) |
 | Frontend | HTML, CSS, JavaScript |
-| Machine Learning | Scikit-learn, NLTK, NumPy, Pandas |
+| Machine Learning | Scikit-learn, NumPy, Pandas |
 | Model | Logistic Regression / Naive Bayes / SVM |
 | Dimensionality Reduction | PCA |
 | Deployment | (To be added: Vercel / GitHub Actions / Render) |
