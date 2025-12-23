@@ -10,9 +10,16 @@ from app.ml.predictor import MoodPredictor
 app = FastAPI(title="Moodify API", version="1.0.0")
 
 # CORS Middleware for React frontend
+
+origins = [
+    "http://localhost:3000",  # if testing locally
+    "https://moodify-lyrics.vercel.app",  # testing by public users
+    "https://moodify-git-ahmed-ahmed-lasharis-projects.vercel.app", # testing by ahmed branch
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://moodify-lyrics.vercel.app/"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
