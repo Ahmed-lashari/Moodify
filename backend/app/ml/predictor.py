@@ -7,8 +7,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import random
 from scipy.sparse import spmatrix
 import numpy as np
-from models import MOODS
+# from models import MOODS
 from collections import Counter
+
+from app.models import MOOD_COLORS, MOOD_EMOJIS, POSITIVE, NEGATIVE, NEUTRAL
 
 
 class MoodPredictor:
@@ -97,6 +99,8 @@ class MoodPredictor:
         mood_probs = dict(
             sorted(mood_probs.items(), key=lambda x: x[1], reverse=True)
         )
+        
+        
 
         return mood_probs
 
@@ -109,30 +113,30 @@ class MoodPredictor:
     def get_error(self) -> Optional[str]:
         """Get error message if models failed to load"""
         return self.error_message
-    
-    
-    def generate_mock_data(self, lyrics: str, detected_mood: str):
-        words = [w for w in lyrics.strip().split() if w]
 
-        # Confidence between 0.75 and 0.99
-        confidence = round(0.75 + random.random() * 0.24, 2)
+
+    def generate_data(self, lyrics: str, mood_prob: dict[str, float]) -> tuple[str,float,str,str, list[dict[str, float]], list[dict], list[dict], dict]:
+        
+        mood, confidence = max(mood_prob.items(), key=lambda item: item[1])
+        color = MOOD_COLORS[mood]
+        emoji = MOOD_EMOJIS[mood]
+
+        words = [w for w in lyrics.strip().split() if w]
 
         # Mood distribution for pie chart
         mood_distribution = []
-        for mood_name, mood_info in MOODS.items():
-            if mood_name == detected_mood:
-                value = round(confidence * 100, 2)
-            else:
-                value = round(random.random() * 30, 2)
+        for mood_name, mood_info in mood_prob.items():
+            value = round(mood_info * 100, 2)
+
             mood_distribution.append({
                 "name": mood_name,
                 "value": value,
-                "color": mood_info["color"]
+                "color": MOOD_COLORS[mood_name]
             })
 
 
-        # Sentiment timeline (dummy values between -50 and +50)
-        sentiment_timeline = [{"line": i + 1, "sentiment": round(random.random() * 100 - 50, 2)} for i in range(10)]
+        # Sentiment timeline
+        sentiment_timeline = self.generate_sentiment_timeline(lyrics)
 
         # Word frequency (only words longer than 3 letters)
         filtered_words = [w.lower() for w in words if len(w) > 3]
@@ -140,10 +144,40 @@ class MoodPredictor:
         word_frequency = [{"word": word, "count": count} for word, count in word_counts.most_common(10)]
 
         # Statistics
-        stats = {
+        stats:dict[str, float] = {
             "wordCount": len(words),
             "uniqueWords": len(set(w.lower() for w in words)),
             "avgWordLength": round(sum(len(w) for w in words) / len(words), 1) if words else 0
         }
 
-        return confidence, mood_distribution, sentiment_timeline, word_frequency, stats
+        return mood,confidence,color, emoji, mood_distribution, sentiment_timeline, word_frequency, stats
+
+    def generate_sentiment_timeline(self, lyrics: str) -> list[dict]:
+        words = lyrics.split()
+        window_size = max(5, len(words) // 10)
+        timeline = []
+
+        for i in range(0, len(words), window_size):
+            chunk = " ".join(words[i:i + window_size])
+            if not chunk.strip():
+                continue
+
+            # 🔁 Re-run the model on this chunk
+            mood_probs = self.predict(chunk)
+            mood, confidence = max(mood_probs.items(), key=lambda x: x[1])
+
+            if mood in POSITIVE:
+                sentiment = confidence * 100
+            elif mood in NEGATIVE:
+                sentiment = -confidence * 100
+            else:
+                sentiment = 0
+
+            timeline.append({
+                "line": len(timeline) + 1,
+                "sentiment": round(sentiment, 2)
+            })
+
+        return timeline
+
+

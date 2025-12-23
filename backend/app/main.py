@@ -53,17 +53,19 @@ def predict_mood(payload: LyricsInput):
         raise HTTPException(status_code=400, detail="Lyrics cannot be empty")
     
     try:
-        mood:Dict[str, float]  = predictor.predict(text)
-         # Generate mock data for the rest
-        confidence, mood_distribution, sentiment_timeline, word_frequency, stats = predictor.generate_mock_data(text, mood)
+        mood_prob: Dict[str, float] = predictor.predict(text)
+        # Generate mock data for the rest
+        mood, confidence,color, emoji, mood_distribution, sentiment_timeline, word_frequency, stats = predictor.generate_data(text, mood_prob)
 
         return {
-            "mood": mood or "Not Detected",
+            "mood": mood,
             "confidence": confidence,
             "lyrics": text,
-            "moodDistribution": mood_distribution,
-            "sentimentTimeline": sentiment_timeline,
-            "wordFrequency": word_frequency,
+            "color": color,
+            "emoji": emoji,
+            "mood_distribution": mood_distribution,
+            "sentiment_timeline": sentiment_timeline,
+            "word_frequency": word_frequency,
             "stats": stats,
             "success": True
         }

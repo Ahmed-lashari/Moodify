@@ -37,10 +37,13 @@ function App() {
       } else {
         // Real API call
         const result = await sendLyrics(lyrics);
-        
-        // Transform backend response to match frontend expectations
-        const transformedResult = transformBackendResponse(result, lyrics);
+        console.log("RAW BACKEND RESPONSE:", result);
+
+        const transformedResult = transformBackendResponse(result);
+        console.log("TRANSFORMED RESULT:", transformedResult);
+
         setPrediction(transformedResult);
+
         navigate('/charts');
 
       }
@@ -60,23 +63,20 @@ function App() {
     setPrediction(null);
   };
 
-  // Transform backend response to include all data needed by ResultPage
-  const transformBackendResponse = (backendData, originalLyrics) => {
-    // Backend returns: { mood: "happy", lyrics: "...", success: true }
-    // Frontend expects more detailed data for charts
-
-    const mockEnhanced = generateMockPrediction(originalLyrics);
-    
-    return {
-      mood: backendData.mood || 'Not Detected',
-      confidence: 0.85, // Backend doesn't provide this yet
-      lyrics: backendData.lyrics,
-      moodDistribution: mockEnhanced.moodDistribution,
-      sentimentTimeline: mockEnhanced.sentimentTimeline,
-      wordFrequency: mockEnhanced.wordFrequency,
-      stats: mockEnhanced.stats
-    };
+const transformBackendResponse = (backendData) => {
+  return {
+    mood: backendData.mood ?? 'Not Detected',
+    confidence: backendData.confidence ?? 0,
+    lyrics: backendData.lyrics,
+    color: backendData.color??"",
+    emoji: backendData.emoji??"🥬",
+    moodDistribution: backendData.mood_distribution ?? [],
+    sentimentTimeline: backendData.sentiment_timeline ?? [],
+    wordFrequency: backendData.word_frequency ?? [],
+    stats: backendData.stats ?? {}
   };
+};
+
 
   return (
     <div className="App">

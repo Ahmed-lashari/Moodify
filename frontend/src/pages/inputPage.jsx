@@ -6,6 +6,7 @@
 import { useState } from 'react';
 
 function InputPage({ onAnalyze, onBack }) {
+  
   const [lyrics, setLyrics] = useState('');
 
   const handleSubmit = () => {
