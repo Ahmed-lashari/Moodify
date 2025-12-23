@@ -1,8 +1,3 @@
-/**
- * Main App Component
- * Manages page navigation and state
- */
-
 import { useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
@@ -11,13 +6,12 @@ import InputPage from './pages/inputPage';
 import LoadingPage from './pages/loadingPage';
 import ResultPage from './pages/resultPage';
 import TeamCredits from './components/contributions';
-import sendLyrics from './apis/post';
+import {sendLyrics} from './api/post';
 import { generateMockPrediction } from './utils/mockDataGenerator';
 
 
 
 function App() {
-  // const [page, setPage] = useState('landing'); // 'landing', 'input', 'loading', 'result'
   const [prediction, setPrediction] = useState(null);
   const [useMockData, setUseMockData] = useState(false); // Toggle for testing
 
@@ -70,11 +64,11 @@ function App() {
   const transformBackendResponse = (backendData, originalLyrics) => {
     // Backend returns: { mood: "happy", lyrics: "...", success: true }
     // Frontend expects more detailed data for charts
-    
+
     const mockEnhanced = generateMockPrediction(originalLyrics);
     
     return {
-      mood: backendData.mood || 'Happy',
+      mood: backendData.mood || 'Not Detected',
       confidence: 0.85, // Backend doesn't provide this yet
       lyrics: backendData.lyrics,
       moodDistribution: mockEnhanced.moodDistribution,

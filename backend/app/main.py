@@ -53,9 +53,17 @@ def predict_mood(payload: LyricsInput):
     
     try:
         mood = predictor.predict(text)
+         # Generate mock data for the rest
+        confidence, mood_distribution, sentiment_timeline, word_frequency, stats = predictor.generate_mock_data(text, mood)
+
         return {
-            "mood": mood,
+            "mood": mood or "Not Detected",
+            "confidence": confidence,
             "lyrics": text,
+            "moodDistribution": mood_distribution,
+            "sentimentTimeline": sentiment_timeline,
+            "wordFrequency": word_frequency,
+            "stats": stats,
             "success": True
         }
     except Exception as e:

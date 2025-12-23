@@ -4,9 +4,12 @@ import re
 from typing import Optional, Any
 
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.base import ClassifierMixin
+import random
 from scipy.sparse import spmatrix
 import numpy as np
+from models import MOODS
+from collections import Counter
+
 
 class MoodPredictor:
     """
@@ -106,3 +109,41 @@ class MoodPredictor:
     def get_error(self) -> Optional[str]:
         """Get error message if models failed to load"""
         return self.error_message
+    
+    
+    def generate_mock_data(self, lyrics: str, detected_mood: str):
+        words = [w for w in lyrics.strip().split() if w]
+
+        # Confidence between 0.75 and 0.99
+        confidence = round(0.75 + random.random() * 0.24, 2)
+
+        # Mood distribution for pie chart
+        mood_distribution = []
+        for mood_name, mood_info in MOODS.items():
+            if mood_name == detected_mood:
+                value = round(confidence * 100, 2)
+            else:
+                value = round(random.random() * 30, 2)
+            mood_distribution.append({
+                "name": mood_name,
+                "value": value,
+                "color": mood_info["color"]
+            })
+
+
+        # Sentiment timeline (dummy values between -50 and +50)
+        sentiment_timeline = [{"line": i + 1, "sentiment": round(random.random() * 100 - 50, 2)} for i in range(10)]
+
+        # Word frequency (only words longer than 3 letters)
+        filtered_words = [w.lower() for w in words if len(w) > 3]
+        word_counts = Counter(filtered_words)
+        word_frequency = [{"word": word, "count": count} for word, count in word_counts.most_common(10)]
+
+        # Statistics
+        stats = {
+            "wordCount": len(words),
+            "uniqueWords": len(set(w.lower() for w in words)),
+            "avgWordLength": round(sum(len(w) for w in words) / len(words), 1) if words else 0
+        }
+
+        return confidence, mood_distribution, sentiment_timeline, word_frequency, stats
