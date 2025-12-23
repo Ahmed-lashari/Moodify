@@ -60,38 +60,43 @@ class MoodPredictor:
         text = re.sub(r"\s+", " ", text).strip()        # remove extra spaces
         return text
     
-    def predict(self, lyrics: str) -> str:
+    def predict(self, lyrics: str) -> dict:
         """
-        Predict mood from raw lyrics
-        
-        Args:
-            lyrics: Raw song lyrics
+        Predict mood probabilities from raw lyrics.
 
         Returns:
-            Predicted mood (e.g., "happy", "sad", "angry")
+            Dictionary {mood: probability}, sorted descending
+            (highest probability is the first key)
         """
         if not self.is_loaded():
             raise RuntimeError(f"Models not loaded: {self.error_message}")
-        
+
         # Preprocess lyrics
         cleaned_lyrics = self._clean_text(lyrics)
-        
-        # Type assertion to help Pylance understand these won't be None here
+
         assert self.tfidf is not None, "TF-IDF vectorizer should be loaded"
         assert self.model is not None, "Model should be loaded"
-        
+
         # Transform to TF-IDF vector
-        # Returns: scipy.sparse.csr_matrix of shape (n_samples, n_features)
         vector: spmatrix = self.tfidf.transform([cleaned_lyrics])
-        
-        # Predict mood
-        # Returns: numpy.ndarray of shape (n_samples,)
-        prediction: np.ndarray = self.model.predict(vector)
-        
-        # Extract first element
-        mood: str = str(prediction[0])
-        
-        return mood
+
+        # Get probabilities
+        probs: np.ndarray = self.model.predict_proba(vector)[0]
+        classes: np.ndarray = self.model.classes_
+
+        # Build probability dictionary
+        mood_probs = {
+            str(mood): float(prob)
+            for mood, prob in zip(classes, probs)
+        }
+
+        # Sort so highest probability is first (index 0 conceptually)
+        mood_probs = dict(
+            sorted(mood_probs.items(), key=lambda x: x[1], reverse=True)
+        )
+
+        return mood_probs
+
     
     
     def is_loaded(self) -> bool:

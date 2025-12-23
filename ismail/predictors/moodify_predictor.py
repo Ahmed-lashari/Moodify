@@ -26,11 +26,24 @@ def clean_text(text: str) -> str:
 # -----------------------------
 # Prediction function to export
 # -----------------------------
-def predict_mood(lyrics: str) -> str:
+def predict_mood_with_probabilities(lyrics: str) -> dict:
     """
-    Takes raw lyrics as input and returns the predicted mood.
+    Takes raw lyrics as input and returns a dictionary
+    of {mood: probability}.
     """
+
     cleaned = clean_text(lyrics)
     vector = tfidf.transform([cleaned])
-    prediction = model.predict(vector)[0]
-    return prediction
+
+    # Get probabilities
+    probs = model.predict_proba(vector)[0]   # shape: (num_classes,)
+    classes = model.classes_                 # mood labels
+
+    # Convert to dictionary
+    mood_probabilities = {
+        mood: float(prob)
+        for mood, prob in zip(classes, probs)
+    }
+
+    return mood_probabilities
+
