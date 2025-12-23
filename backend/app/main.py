@@ -1,3 +1,4 @@
+from typing import Dict
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from app.models import LyricsInput, PredictionResponse, HealthResponse, MessageResponse
@@ -52,10 +53,20 @@ def predict_mood(payload: LyricsInput):
         raise HTTPException(status_code=400, detail="Lyrics cannot be empty")
     
     try:
-        mood = predictor.predict(text)
+        mood_prob: Dict[str, float] = predictor.predict(text)
+        # Generate mock data for the rest
+        mood, confidence,color, emoji, mood_distribution, sentiment_timeline, word_frequency, stats = predictor.generate_data(text, mood_prob)
+
         return {
             "mood": mood,
+            "confidence": confidence,
             "lyrics": text,
+            "color": color,
+            "emoji": emoji,
+            "mood_distribution": mood_distribution,
+            "sentiment_timeline": sentiment_timeline,
+            "word_frequency": word_frequency,
+            "stats": stats,
             "success": True
         }
     except Exception as e:

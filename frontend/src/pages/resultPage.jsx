@@ -17,7 +17,6 @@ import {
   BarChart, 
   Bar 
 } from 'recharts';
-import { getMoodData } from '../utils/moodConfig';
 
 function ResultPage({ prediction, onBack }) {
   if (!prediction) {
@@ -28,16 +27,22 @@ function ResultPage({ prediction, onBack }) {
     mood, 
     confidence, 
     lyrics, 
+    color, 
+    emoji, 
     moodDistribution, 
     sentimentTimeline, 
     wordFrequency, 
     stats 
   } = prediction;
-  
-  const moodData = getMoodData(mood);
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${moodData.gradient} py-8`}>
+    <div
+  className="min-h-screen py-8"
+  style={{
+    background: `linear-gradient(135deg, ${color}, #000000)`
+  }}
+>
+
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Back button */}
         <button
@@ -51,13 +56,13 @@ function ResultPage({ prediction, onBack }) {
         <div className="bg-white rounded-3xl shadow-2xl p-8 mb-6 text-center">
           {/* Mood emoji */}
           <div className="text-9xl mb-4 animate-bounce">
-            {moodData.emoji}
+            {emoji}
           </div>
           
           {/* Mood label */}
           <div 
             className="inline-block text-3xl font-black text-white px-8 py-3 rounded-full mb-4"
-            style={{ backgroundColor: moodData.color }}
+            style={{ backgroundColor: color }}
           >
             {mood.toUpperCase()}
           </div>
@@ -73,7 +78,7 @@ function ResultPage({ prediction, onBack }) {
               className="h-full rounded-full transition-all duration-1000"
               style={{ 
                 width: `${confidence * 100}%`, 
-                backgroundColor: moodData.color 
+                backgroundColor: color 
               }}
             />
           </div>
@@ -92,7 +97,7 @@ function ResultPage({ prediction, onBack }) {
             >
               <div 
                 className="text-5xl font-bold" 
-                style={{ color: moodData.color }}
+                style={{ color: color }}
               >
                 {stat.value}
               </div>
@@ -139,7 +144,7 @@ function ResultPage({ prediction, onBack }) {
                 <Line 
                   type="monotone" 
                   dataKey="sentiment" 
-                  stroke={moodData.color} 
+                  stroke={color} 
                   strokeWidth={3} 
                 />
               </LineChart>
@@ -157,7 +162,7 @@ function ResultPage({ prediction, onBack }) {
                 <Tooltip />
                 <Bar 
                   dataKey="count" 
-                  fill={moodData.color} 
+                  fill={color} 
                   radius={[10, 10, 0, 0]} 
                 />
               </BarChart>
