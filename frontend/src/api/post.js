@@ -1,6 +1,6 @@
 export const sendLyrics = async (lyrics) => {
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
-  console.log("Sending request to:", backendUrl);
+  // console.log("Sending request to:", backendUrl);
 
   try {
     const res = await fetch(`${backendUrl}/predict`, {

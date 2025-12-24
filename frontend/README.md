@@ -85,12 +85,15 @@ Built with **Recharts** library:
 
 ### Mood Types
 The app recognizes these moods:
-- 😊 **Happy** - Yellow/Orange gradient
-- 😢 **Sad** - Gray gradient
-- 😠 **Angry** - Red gradient
-- 😌 **Calm** - Cyan/Blue gradient
-- ⚡ **Energetic** - Orange/Pink gradient
-- 💕 **Romantic** - Pink/Rose gradient
+| Mood | Emoji | Color |
+|------|-------|-------|
+| **joy** |😊 | warm yellow, inward |
+| **sadness** | 😢 | muted blue |
+| **love** |😍 | soft pink/red |
+| **anger** |😠 | strong red |
+| **fear** |😨 | deep purple |
+| **surprise** |❓ | teal |
+
 
 ### Responsive Design
 - Mobile-friendly layout

@@ -152,11 +152,18 @@ Analyze lyrics and predict mood
 ```
 
 **Response:**
-```json
+```python
 {
-  "mood": "happy",
-  "lyrics": "Walking on sunshine, feeling alive",
-  "success": true
+    "mood": str
+    "confidence": float
+    "lyrics": str
+    "color": str
+    "emoji": str
+    "mood_distribution": list[dict]
+    "sentiment_timeline": list[dict[str, float]]
+    "word_frequency": list[dict]
+    "stats": dict
+    "success": bool = True
 }
 ```
 
@@ -173,16 +180,16 @@ Backend health check
 
 ## 🎭 Supported Moods
 
-| Mood | Emoji | Color | Example |
-|------|-------|-------|---------|
-| **Happy** | 😊 | Yellow/Orange | Upbeat, joyful lyrics |
-| **Sad** | 😢 | Gray | Melancholic, sorrowful lyrics |
-| **Angry** | 😠 | Red | Aggressive, intense lyrics |
-| **Calm** | 😌 | Cyan/Blue | Peaceful, relaxing lyrics |
-| **Energetic** | ⚡ | Orange/Pink | High-energy, motivational lyrics |
-| **Romantic** | 💕 | Pink/Rose | Love songs, affectionate lyrics |
+| Mood | Emoji | Color |
+|------|-------|-------|
+| **joy** |😊 | warm yellow, inward |
+| **sadness** | 😢 | muted blue |
+| **love** |😍 | soft pink/red |
+| **anger** |😠 | strong red |
+| **fear** |😨 | deep purple |
+| **surprise** |❓ | teal |
 
-*Note: Actual moods depend on your trained model*
+<!-- *Note: Actual moods depend on your trained model* -->
 
 ---
 
@@ -295,10 +302,7 @@ gunicorn app.main:app -w 4 -k uvicorn.workers.UvicornWorker
 ```
 
 **Deploy to:**
-- AWS EC2
-- Heroku
-- Railway
-- DigitalOcean
+- Render
 
 ### Frontend (React)
 
@@ -311,9 +315,6 @@ npm run build
 
 **Deploy to:**
 - Vercel
-- Netlify
-- AWS S3 + CloudFront
-- GitHub Pages
 
 ### Important: Update CORS
 

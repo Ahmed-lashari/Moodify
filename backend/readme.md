@@ -72,11 +72,18 @@ Predict mood from song lyrics.
 ```
 
 **Response:**
-```json
+```python
 {
-  "mood": "happy",
-  "lyrics": "I'm walking on sunshine, feeling so alive",
-  "success": true
+    "mood": str
+    "confidence": float
+    "lyrics": str
+    "color": str
+    "emoji": str
+    "mood_distribution": list[dict]
+    "sentiment_timeline": list[dict[str, float]]
+    "word_frequency": list[dict]
+    "stats": dict
+    "success": bool = True
 }
 ```
 
